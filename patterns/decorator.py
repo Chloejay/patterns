@@ -99,8 +99,8 @@ class Test:
         return f'just test {x}'
     
     @classmethod 
-    def test(cls):
-        return cls
+    def test_fullname(cls, first, last, age):
+        return f'fullname is {first} {last}' 
     @classmethod 
     def rewrite(cls,x):
         return cls.write(x) + '!'
@@ -182,10 +182,11 @@ if __name__=='__main__':
     person.change_email='emily'
     print(person.get_email) 
     print(person.write('english and maths to compile the so called algorithm')) 
-    print(Test.test())
+    print(Test.test_fullname) #bound method of Test
+    print(Test.test_fullname('emma','ji', 28))
     print(Test.rewrite('extract abstract')) 
     save_time(100) 
-    
     print(call('emma', 'shanghai') ) 
-    print(test_con('ok1','TESTING','PLAYING')) 
+    print(test_con('ok','TESTING','PLAYING')) 
+    
 
