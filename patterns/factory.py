@@ -1,5 +1,5 @@
 '''
-Factory pattern, to instaitate the new object in one factory(encapsulation), to keep base class
+Factory pattern, to instantiate the new object in one factory(encapsulation), to keep base class
 in a mode of 'close for modification', let subclass to decide which class to instantiate, 
 also aka static factory. Along with is the abstract factory, create a interface as objects which 
 belonged as one family. 
