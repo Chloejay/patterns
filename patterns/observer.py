@@ -1,7 +1,8 @@
 '''
-the hardcore usecase is pub/sub in event streaming system, observer pattern use the one-to-many structure. Based on GoF book the Observer has four parts, 
-subject, concretSubject, observer and concretObserver as interface and implementation. 
-'encapsulate interchangable behaviors and use delegation to decide which one to use' is the concept mentioned in Head First Design Pattern book. 
+the hardcore usecase is pub/sub in event streaming system, observer pattern use the one-to-many structure. 
+Based on GoF book the Observer has four parts, subject, concretSubject, observer and concretObserver as 
+interface and implementation. 'encapsulate interchangable behaviors and use delegation to decide which one to use' 
+is the concept mentioned in Head First Design Pattern book. 
 '''
 
 from abc import ABC, abstractmethod #use compound patterns 
