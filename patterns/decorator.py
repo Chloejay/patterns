@@ -1,26 +1,33 @@
 '''
 decorator pattern, inpired by GoF book. illustrated the decorators in three parts
-- object (function and class) in clsoure style 
+- object (function and class) in closure style 
 - @property, @staticmethod and @classmethod 
 - built in packages functools.wraps() 
 
 why? (use decorator)- @decorator is just the shortcut for the fn=@decorator(fn), its behavior is to replace the decorated 
-function with a new function, that accepts the same args and return the value; keep the code more DRY and extend functionality 
-with more ease and flexibility, without inheritance. keep in mind, decorator is just the `wrapper`, kind of closure type, 
-which just extend the functions in a mask way. 
+function with a new callable function, that accepts the same args and return related value; keep the code more DRY and 
+extend functionality with more ease and flexibility, without inheritance. keep in mind, decorator is just the `wrapper`, 
+kind of closure type, which just extend the functions in a mask way. 
 '''
-# fn return fn, used concept closure and wrapper (attach additional reponsibilities to an object dynamically) 
 
+# fn return fn, used concept closure and wrapper (attach additional reponsibilities to an object dynamically) 
 from typing import Iterable
+from functools import wraps 
 
 def wrape_single_args(fn): 
-    def text(msg):
-        return fn(msg)
+    # @wraps(fn)
+    def text(*msg):
+        return fn(*msg) 
     return text 
 
 @wrape_single_args  
-def write(msg):
-    return (f'the morning msg is {msg}') 
+def write(msg,msg2):
+    return f'the morning msg is {msg}->{msg2}' 
+
+class WriteClass:
+    @wrape_single_args
+    def write(self, msg, msg2):
+        return f'test decorator class {msg}->{msg2}' 
 
 # use variable_args[kwargs]  
 def wrapper_outside(fn_call_inside_wrapper):
@@ -35,6 +42,8 @@ def call_anything(a:int, b:int)-> Iterable[int]:
 import functools
 def partialFn(arg1, arg2):
     return int(arg1)* float(arg2)
+
+# decorate the whole class 
 
 # closure concept for the free variable and nonlocal vraibale concept 
 def count():
@@ -86,19 +95,25 @@ class Age(object):
 
 # decorator use @property, @staticmethod, @classmethod 
 class Test:
-    def __init__ (self, first, last, age):
+    def __init__ (self, first, age, last='ji'):
         self._firstName= first
         self._lastName= last 
         self.age= age 
-        self.city= 'berlin'
+        self.city= 'town'
 
     @property 
     def get_email(self):
-        return f'{self._firstName}-{self._lastName}@gmail.com'
+        try:
+            return f'{self._firstName}-{self._lastName}@gmail.com' 
+        except AttributeError as e:
+            print(str(e)) 
     @get_email.setter
-    def change_email(self, new_name):
+    def get_email(self, new_name):
         self._firstName=new_name
         # return f'{self._firstName}-{self._lastName}@gmail.com' 
+    @get_email.deleter 
+    def get_email(self):
+        del self._lastName 
 
     @staticmethod  
     def write(x):
@@ -116,11 +131,10 @@ class Test:
         return f'anther city life in {cls.city}, well {cls.write(x)}'
 
 # use functools.wraps 
-from functools import wraps 
 '''
 # the helper function 
 def decorator(fn):
-    #the functool.wraps is a tool to copy the wrapped function's infos,like the docstring 
+    #the functool.wraps is a tool to copy the wrapped function's infos,like the docstring and name 
     @wraps(fn) 
     def wrapper(*args, **kwars):
         result= fn(*args, **kwargs) 
@@ -149,7 +163,7 @@ def time_recored(time):
     for _ in range(time):
         sum([i**2 if i %2 !=0 else i for i in range(10000)]) 
 
-#extra- mix the conditions 
+#extra- mix conditions 
 def test_call(have_call):
     def wrapper(*args): 
         from datetime import datetime 
@@ -178,7 +192,9 @@ def test_con(a,x,y):
 
 if __name__=='__main__':
     print(call_anything(1,2)) #should be 1/2
-    print(write('halo')) 
+    classtest=WriteClass() #gotcha, instance to get bound method 
+    print(classtest.write('decoratedClass','test'))
+    print(write('halo','viola')) 
     print(functools.partial(partialFn, 1.00005)(1.12))
     print(count1(10))
     print(count1(20))  #should be 30 
@@ -187,7 +203,7 @@ if __name__=='__main__':
     write_again() 
     testAge= Age()
     testAge.add_age(8) 
-    person= Test('chloe','ji',28)
+    person= Test('chloe',28)
     person.change_email='emily'
     print(person.get_email) 
     print(person.write('combine english yet maths to compile so called algorithm')) 

@@ -38,14 +38,6 @@ class Ocean:
     def swim(self):
         return f'ocean swim in {self.site}' 
 
-# to abstract the common interface 
-class OceanAdapter(City, Ocean):
-    def __init__(self, site):
-        Ocean.__init__(self, site) 
-
-    def spacetravel(self):
-        return self.swim() 
-
 #use object adapter, adapt the interface of its parent's class and return adaptee's function 
 class ObjectAdapter(City):
     def __init__(self, site):
@@ -56,6 +48,15 @@ class ObjectAdapter(City):
 
     def __getattr__(self, attr): 
         return getattr(self.site, attr)
+
+# to abstract the common interface 
+class OceanAdapter(City, Ocean):
+    def __init__(self, site):
+        Ocean.__init__(self, site) 
+
+    def spacetravel(self):
+        return self.swim() 
+
 
 
 if __name__=='__main__':
