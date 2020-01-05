@@ -4,11 +4,15 @@ decorator pattern, inpired by GoF book. illustrated the decorators in three part
 - @property, @staticmethod and @classmethod 
 - built in packages functools.wraps() 
 
-why? (use decorator)- @decorator is just the shortcut for the fn=@decorator(fn), its behavior is to replace the decorated function with a new function, 
-that accepts the same args and return the value; keep the code more DRY and extend functionality with more ease and flexibility, without inheritance. 
-keep in mind, decorator is just the `wrapper`, kind of closure type, which just extend the functions in a mask way
+why? (use decorator)- @decorator is just the shortcut for the fn=@decorator(fn), its behavior is to replace the decorated 
+function with a new function, that accepts the same args and return the value; keep the code more DRY and extend functionality 
+with more ease and flexibility, without inheritance. keep in mind, decorator is just the `wrapper`, kind of closure type, 
+which just extend the functions in a mask way. 
 '''
 # fn return fn, used concept closure and wrapper (attach additional reponsibilities to an object dynamically) 
+
+from typing import Iterable
+
 def wrape_single_args(fn): 
     def text(msg):
         return fn(msg)
@@ -24,8 +28,8 @@ def wrapper_outside(fn_call_inside_wrapper):
         return fn_call_inside_wrapper(*args, **kwargs)
     return wrapper 
 
-@wrapper_outside
-def call_anything(a, b):
+@wrapper_outside 
+def call_anything(a:int, b:int)-> Iterable[int]:
     return f'combine arguments into one {a*b if a>b else a/b }' 
 
 import functools
@@ -195,4 +199,4 @@ if __name__=='__main__':
     print(call('emma', 'foresttown')) 
     print(test_con('ok','TESTING','PLAYING')) 
 
-    
+# decorator return decorator TODO 
