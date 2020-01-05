@@ -8,27 +8,29 @@ why? (use decorator)- @decorator is just the shortcut for the fn=@decorator(fn),
 that accepts the same args and return the value; keep the code more DRY and extend functionality with more ease and flexibility, without inheritance. 
 keep in mind, decorator is just the `wrapper`, kind of closure type, which just extend the functions in a mask way
 '''
-
-# fn return fn, used concept closure, to attach additional reponsibilities to an object dynamically 
-def call(fn): 
+# fn return fn, used concept closure and wrapper (attach additional reponsibilities to an object dynamically) 
+def wrape_single_args(fn): 
     def text(msg):
         return fn(msg)
     return text 
 
-@call    
+@wrape_single_args  
 def write(msg):
-    return (f'the morning msg is {msg}')  
+    return (f'the morning msg is {msg}') 
 
-# use optional args or kwargs 
-def call_1(fn):
-    def text_1(*args, **kwargs):
-        return fn(*args, **kwargs)
-    return text_1
+# use variable_args[kwargs]  
+def wrapper_outside(fn_call_inside_wrapper):
+    def wrapper(*args, **kwargs):
+        return fn_call_inside_wrapper(*args, **kwargs)
+    return wrapper 
 
-@call_1
-def write_1(msg, msg2, msgn):
-    return ('this is the test msg {}-{}-{}'.format(msg, msg2, msgn)) 
-# can make the fn return fn more nested (chain rule)
+@wrapper_outside
+def call_anything(a, b):
+    return f'combine arguments into one {a*b if a>b else a/b }' 
+
+import functools
+def partialFn(arg1, arg2):
+    return int(arg1)* float(arg2)
 
 # closure concept for the free variable and nonlocal vraibale concept 
 def count():
@@ -64,7 +66,7 @@ class Test_1:
 def write_again():
     print('OK!') 
 
-# decorator outside the class and use self and wrapper fn 
+# decorator outside the class and use self and wrapper function 
 def outsider_fn(fn):
     def wrapper(self, age):
         age= age+1
@@ -94,9 +96,9 @@ class Test:
         self._firstName=new_name
         # return f'{self._firstName}-{self._lastName}@gmail.com' 
 
-    @staticmethod #a plain fn just in the scope of the class building block 
+    @staticmethod  
     def write(x):
-        return f'just test {x}'
+        return f'just test plain staticmethod in class scope - {x}'
     
     @classmethod 
     def test_fullname(cls, first, last, age):
@@ -105,16 +107,16 @@ class Test:
     def rewrite(cls,x):
         return cls.write(x) + '!'
     @classmethod 
-    def test(cls):
-        cls.city='shanghai'
-        return f'anther city life in {cls.city }'
+    def test(cls,x):
+        cls.city='space'
+        return f'anther city life in {cls.city}, well {cls.write(x)}'
 
 # use functools.wraps 
 from functools import wraps 
 '''
-# the helper functions 
+# the helper function 
 def decorator(fn):
-    #the functool.wraps is a tool to copy the wrapped fns's infos,like the docstring 
+    #the functool.wraps is a tool to copy the wrapped function's infos,like the docstring 
     @wraps(fn) 
     def wrapper(*args, **kwars):
         result= fn(*args, **kwargs) 
@@ -125,28 +127,30 @@ def timer(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         import time 
-        func_name= func.__name__ 
-        start= time.perf_counter() #measure time interval for the program run time 
-        value= func(*args, **kwargs)
-        end= time.perf_counter() 
-        run_time= end-start 
+        try:
+            func_name= func.__name__ 
+            start= time.perf_counter() #measure program run time 
+            value= func(*args, **kwargs)
+            end= time.perf_counter() 
+            run_time= end-start 
 
-        print(f"Finished {func.__name__!r} in {run_time:.2f} secs")
+            print(f"Finished {func.__name__!r} in {run_time:.2f} secs") 
+        except Exception:
+            pass 
         return value
     return wrapper 
 
 @timer 
-def save_time(time):
+def time_recored(time):
     for _ in range(time):
-        sum([i**2 for i in range(10000)])
+        sum([i**2 if i %2 !=0 else i for i in range(10000)]) 
 
-#spolier- mix the conditions 
+#extra- mix the conditions 
 def test_call(have_call):
-    def wrapper(*args, **kwargs): 
+    def wrapper(*args): 
         from datetime import datetime 
         if 5<datetime.now().hour<20: 
-            have_call(*args, **kwargs)
-            return have_call(*args, **kwargs)
+            return have_call(*args)
         else:
             print('Good Night then!') 
     return wrapper
@@ -163,30 +167,32 @@ def test_con(a,x,y):
     def fn2(y):
        return f'the condtion two {y}' 
     if a=='ok':
-        return fn1(x)
+        return fn1(x) 
     else:
         return fn2(y)
 
 
 if __name__=='__main__':
-    print(write('halo') ) 
-    print(write_1('halo', 'gut_nacht', 'blalala')) 
+    print(call_anything(1,2)) #should be 1/2
+    print(write('halo')) 
+    print(functools.partial(partialFn, 1.00005)(1.12))
     print(count1(10))
     print(count1(20))  #should be 30 
-    print(test_avg(10) ) 
-    print(test_avg(20) ) #should be 15 
+    print(test_avg(10)) 
+    print(test_avg(20)) #should be 15 
     write_again() 
     testAge= Age()
     testAge.add_age(8) 
     person= Test('chloe','ji',28)
     person.change_email='emily'
     print(person.get_email) 
-    print(person.write('english and maths to compile the so called algorithm')) 
+    print(person.write('combine english yet maths to compile so called algorithm')) 
     print(Test.test_fullname) #bound method of Test
     print(Test.test_fullname('emma','ji', 28))
     print(Test.rewrite('extract abstract')) 
-    save_time(100) 
-    print(call('emma', 'shanghai') ) 
+    print(Test.test('craft')) 
+    time_recored(100) 
+    print(call('emma', 'foresttown')) 
     print(test_con('ok','TESTING','PLAYING')) 
-    
 
+    
