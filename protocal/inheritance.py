@@ -4,7 +4,29 @@ instance of subclass)
 http://python-history.blogspot.com/2010/06/method-resolution-order.html from Guido 
 '''
 
+class Dream(object):
+    def __init__(self, dream):
+        self._dream= dream
+        self._work= 'design'
 
+class Work(Dream):
+    def __init__(self, dream):
+        super().__init__(dream)
+        self._work='work'
+
+    @property 
+    def work(self):
+        return self._work
+
+    @work.setter 
+    def work(self, new_work):
+        self._work= new_work 
+
+class Lazy(Dream):
+    def __init__(self, dream):
+        super().__init__(dream) 
+        
+#multiply inheritance 
 class Book:
     def __init__(self,name):
         self.name= name
@@ -17,7 +39,7 @@ class Novel(Book):
     def __init__(self, name, booktype):
         self.booktype= booktype
         super().__init__(name) 
-
+    
     def categorize(self):
         return f'{self.name} is being categoried into {self.booktype}' 
 
@@ -31,6 +53,8 @@ class Adventure(Novel, Book): #mro
         return f'read book {self.name} about {self.desc}' 
 
 def main():
+    Work.work='coder'
+    print(Work.work) 
     if issubclass(Adventure, Novel): 
         print(Adventure.__mro__)
         print(Novel.__mro__) 
