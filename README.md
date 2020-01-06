@@ -5,5 +5,6 @@ The exercise and protocol to archive some python code originated from my learnin
 Resources:
 - Design Pattern GoF
 - The Principles of Good Programming by Christopher Diggins https://www.artima.com/weblogs/viewpost.jsp?thread=331531 
+- Python Structure Pattern framework Zope Component Architecture(ZAC) https://muthukadan.net/docs/zca.html
 
 gotcha of mine: abstract language and simplify the complex 

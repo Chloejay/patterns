@@ -1,7 +1,7 @@
 '''
 when to use: to fix the mismatch and incompatibility of the interfaces. 
-multiple classes have similar property, but different behaviors, by inheritate generalClass inheritance 
-and adaptee class's implementation. 
+multiple classes have similar property, but different behaviors, by inheritate generalClass 
+and adapte class's implementation, the concept of duck typing.  
 
 two types of adapter (aka.wrapper):
 - class adapter uses multiple inheritance to adapt one interface to another
@@ -16,7 +16,7 @@ Resource:
 from abc import ABC, abstractmethod 
 
 
-class City(ABC): 
+class FakeCity(ABC): 
     def __init__(self, site):
         self.site= site 
 
@@ -24,14 +24,14 @@ class City(ABC):
     def spacetravel(self):
         raise NotImplementedError('add concret behaviors ....') 
 
-class Mountain(City):
+class Mountain(FakeCity):
     def __init__(self,site):
         self.site = site
 
     def spacetravel(self):
         return f'space travel in {self.site}' 
 
-class Ocean:
+class Ocean(object):
     def __init__(self, site):
         self.site = site
 
@@ -39,7 +39,7 @@ class Ocean:
         return f'ocean swim in {self.site}' 
 
 #use object adapter, adapt the interface of its parent's class and return adaptee's function 
-class ObjectAdapter(City):
+class ObjectAdapter(FakeCity):
     def __init__(self, site):
         self.site= site
 
@@ -50,7 +50,7 @@ class ObjectAdapter(City):
         return getattr(self.site, attr)
 
 # to abstract the common interface 
-class OceanAdapter(City, Ocean):
+class OceanAdapter(Ocean, FakeCity):
     def __init__(self, site):
         Ocean.__init__(self, site) 
 
