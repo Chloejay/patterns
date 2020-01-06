@@ -24,9 +24,9 @@ class CityBike(City):
     def bike(self):
         return f'bike to {self.citywalk.region} is {self.desc}'
 
-# TODO, can implement with factory method 
+# TODO, implement with factory method 
 
 if __name__=='__main__':
     test= CityBike('forresttown', '10km', 'chill')
     print(test.walk())
-    print(test.bike() )  
+    print(test.bike())  

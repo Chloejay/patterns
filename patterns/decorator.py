@@ -1,18 +1,18 @@
 '''
-decorator pattern, inpired by GoF book. illustrated the decorators in three parts
+decorator pattern, inspired by GoF book. below decorator is illustrated in three parts
 - object (function and class) in closure style 
 - @property, @staticmethod and @classmethod 
 - built in packages functools.wraps() 
 
 why? (use decorator)- @decorator is just the shortcut for the fn=@decorator(fn), its behavior is to replace the decorated 
-function with a new callable function, that accepts the same args and return related value; keep the code more DRY and 
+function with a new callable object, that accepts the same args and return related value, keep the code more DRY and 
 extend functionality with more ease and flexibility, without inheritance. keep in mind, decorator is just the `wrapper`, 
-kind of closure type, which just extend the functions in a mask way. 
+kind of closure type, which extends the functions in a mask way. 
 '''
 
 # fn return fn, used concept closure and wrapper (attach additional reponsibilities to an object dynamically) 
 from typing import Iterable
-from functools import wraps 
+from functools import wraps, partial
 
 def wrape_single_args(fn): 
     # @wraps(fn)
@@ -39,11 +39,8 @@ def wrapper_outside(fn_call_inside_wrapper):
 def call_anything(a:int, b:int)-> Iterable[int]:
     return f'combine arguments into one {a*b if a>b else a/b }' 
 
-import functools
 def partialFn(arg1, arg2):
     return int(arg1)* float(arg2)
-
-# decorate the whole class 
 
 # closure concept for the free variable and nonlocal vraibale concept 
 def count():
@@ -54,7 +51,7 @@ def count():
         return total 
     return sum_count 
 
-count1= count() 
+countInstance= count() 
 
 def make_avg():
     count, total=0, 0 
@@ -66,18 +63,34 @@ def make_avg():
         return total/count 
     return avg 
 
-test_avg= make_avg() 
+avg_instance= make_avg() 
 
+#lass decorated function 
 class Test_1:
-    def __init__(self,name):
-        self.name= name 
+    def __init__(self,fn):
+        self.fn= fn 
+        self.callCount=0 
     
-    def __call__(self): #need to use __call__ 
-        self.name() 
+    def __call__(self, *args): #use __call__ to make class callable 
+        self.callCount+=1
+        self.fn(self.callCount, *args)
 
 @Test_1
-def write_again():
-    print('OK!') 
+def write_again(val, val2):
+    print('OK! call {} for {} times'.format(val2, val))  
+
+class Test_2:
+    def __init__(self, fn):
+        self.fn= fn 
+
+    def __call__(self, *args, **kwargs):
+        result= self.fn(*args, **kwargs)
+        return result 
+
+@Test_2
+def addEle(val:int, val2:int)->Iterable[int]: 
+    print(val, val2)
+    return val+val2 
 
 # decorator outside the class and use self and wrapper function 
 def outsider_fn(fn):
@@ -93,7 +106,7 @@ class Age(object):
     def add_age(self, age):
         print('my age is {} in 2020'.format(self.adultAge + age)) 
 
-# decorator use @property, @staticmethod, @classmethod 
+# @property, @staticmethod, @classmethod decorator 
 class Test:
     def __init__ (self, first, age, last='ji'):
         self._firstName= first
@@ -107,10 +120,12 @@ class Test:
             return f'{self._firstName}-{self._lastName}@gmail.com' 
         except AttributeError as e:
             print(str(e)) 
+
     @get_email.setter
     def get_email(self, new_name):
         self._firstName=new_name
         # return f'{self._firstName}-{self._lastName}@gmail.com' 
+
     @get_email.deleter 
     def get_email(self):
         del self._lastName 
@@ -195,12 +210,14 @@ if __name__=='__main__':
     classtest=WriteClass() #gotcha, instance to get bound method 
     print(classtest.write('decoratedClass','test'))
     print(write('halo','viola')) 
-    print(functools.partial(partialFn, 1.00005)(1.12))
-    print(count1(10))
-    print(count1(20))  #should be 30 
-    print(test_avg(10)) 
-    print(test_avg(20)) #should be 15 
-    write_again() 
+    print(partial(partialFn, 1.00005)(1.12))
+    print(countInstance(10))
+    print(countInstance(20))  #should be 30 
+    print(avg_instance(10)) 
+    print(avg_instance(20)) #should be 15 
+    write_again('viola') 
+    write_again('viola!!')
+    print(addEle(0,1)) 
     testAge= Age()
     testAge.add_age(8) 
     person= Test('chloe',28)
@@ -215,4 +232,4 @@ if __name__=='__main__':
     print(call('emma', 'foresttown')) 
     print(test_con('ok','TESTING','PLAYING')) 
 
-# decorator return decorator TODO 
+# TODO decorator return decorator 
