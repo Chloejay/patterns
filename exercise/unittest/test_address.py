@@ -1,8 +1,5 @@
 import unittest 
-from file import Human 
-
-# make all the test units isolated from each other 
-# TODO mocks 
+from address import Human 
 
 class TestAge(unittest.TestCase):
     '''
