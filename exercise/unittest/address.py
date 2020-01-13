@@ -1,5 +1,7 @@
 class Human:
+    
     old_age=28
+
     def __init__(self, first, last, age):
         self._firstName= first
         self._lastName= last

@@ -1,14 +1,14 @@
-import unittest 
+from unittest import TestCase 
 from address import Human 
 
-class TestAge(unittest.TestCase):
+
+class TestAge(TestCase):
     '''
-    to avoid to repeat the 
-    person1= Human('chloe','ji', 28), make two helper function def setUp() and tearDown() 
+    to avoid repeating create instance, use helper function setUp() and tearDown() 
     '''
     def setUp(self):
         print('set up')
-        self.person1= Human('chloe','ji', 28) #to make it as the attribute instance 
+        self.person1= Human('chloe','ji', 28) #to make it as attribute instance 
         self.person2=Human('emma','emaily', 20)
 
     def tearDown(self):
@@ -21,6 +21,8 @@ class TestAge(unittest.TestCase):
     def test_age(self):
         print('add age')
         self.assertEqual(self.person2.increase_amt(),48)
+
+
 
 if __name__=='__main__':
     unittest.main()  
