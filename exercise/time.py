@@ -1,33 +1,54 @@
 import time 
+import requests 
+import logging 
+from pprint import pprint 
 
-#decorated function is the wrapper function, vice versa
+
+logging.basicConfig(level=logging.INFO)
+
+class ServiceUnavailableError(Exception):
+    pass
+
 def sleep(timeout, retry=2):
     def func(fn):
         def wrapper(*args, **kwargs):
             retries=0
             while retries <retry:
                 try:
-                    value= func(*args, **kwars)
-                    if value is None:
-                        return 
-                except:
-                    logging.info(f'sleep for {timeout} seconds')
+                    return fn(*args, **kwargs)  
+                except Exception as e:
+                    pprint(f'error is {e}')
                     time.sleep(timeout) 
+                    logging.info(f'sleep for {timeout} seconds')
                     retries +=1 
         return wrapper 
-    return func 
+    return func
+
+@sleep(3)
+def check_service(url: str)-> None:
+    try:
+        res= requests.get(url)
+        data= res.text
+        return data 
+        if res.status_code !=200:
+            raise ServiceUnavailableError() 
+
+    except (
+        requests.exceptions.ConnectionError, 
+        requests.exceptions.Timeout,
+        requests.exceptions.HTTPError
+    ) as exc:
+        raise ServiceUnavailableError from exc 
+
+    finally:
+        pprint(f'{url} load is ok')
+ 
 
 
-#useful example 
-# def fn(val):
-#     def fn_decorator(decorator_fn):
-#         def decorated_fn(*args, **kwargs):
-#             for i in (val):
-#                 decorator_fn(*args, **kwargs) 
-#         return decorated_fn
-#     return fn_decorator 
+if __name__=="__main__":
+    url='https://medium.com/'
+    print(check_service(url)) 
 
-# @fn
-# def decorated_fn(args):
-#     pass 
 
+
+    
