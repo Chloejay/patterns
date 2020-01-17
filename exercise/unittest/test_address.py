@@ -1,10 +1,11 @@
-from unittest import TestCase 
+import unittest
+from unittest import TestCase
 from address import Human 
 
 
 class TestAge(TestCase):
     '''
-    to avoid repeating create instance, use helper function setUp() and tearDown() 
+    to avoid repeating create instance, use helper function setUp()
     '''
     def setUp(self):
         print('set up')
@@ -17,10 +18,16 @@ class TestAge(TestCase):
     def test_email(self):
         print('test email')
         self.assertEqual(self.person1.get_email, 'chloe_ji@gmail.com') 
+        self.assertTrue(self.person1.get_email=='chloe_ji@gmail.com')
 
     def test_age(self):
         print('add age')
         self.assertEqual(self.person2.increase_amt(),48)
+
+    def testInvalidType(self):
+        print('test invalid')
+        with self.assertRaises(TypeError):
+            self.person1.get_email({}) 
 
 
 

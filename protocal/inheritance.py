@@ -22,15 +22,19 @@ class Work(Dream):
     def work(self, new_work):
         self._work= new_work 
 
+    @work.deleter
+    def work(self):
+        del self._work 
+
 class Lazy(Dream):
     def __init__(self, dream):
         super().__init__(dream) 
         
-#multiply inheritance 
+#multiply inheritance (MRO)
 class Book:
     def __init__(self,name):
         self.name= name
-        self.page=0
+        self.page=1
 
     def bookmark(self, new_page):
         return f'mark {new_page} page'
@@ -43,14 +47,14 @@ class Novel(Book):
     def categorize(self):
         return f'{self.name} is being categoried into {self.booktype}' 
 
-class Adventure(Novel, Book): #mro 
+class Adventure(Novel, Book): 
     def __init__(self, name, booktype, desc):
         self.desc= desc 
         # super().__init__(name, booktype) 
         super(Adventure, self).__init__(booktype, name) 
 
-    def read_book(self):
-        return f'read book {self.name} about {self.desc}' 
+    def bookmark(self):
+        return f'read book {self.name} about {self.desc} at {self.page}' 
 
 def main():
     Work.work='coder'
@@ -58,11 +62,11 @@ def main():
     if issubclass(Adventure, Novel): 
         print(Adventure.__mro__)
         print(Novel.__mro__) 
+        novel=Novel('women on the train','non-fiction')
+        print(novel.bookmark('last_page')) 
         test=Adventure('inito the wild','non-fiction','"go solo"') 
-        print(test.read_book())
+        print(test.bookmark())
         print(test.categorize()) 
-        print(test.bookmark('last_page')) #auto 
-        
 
 if __name__=='__main__':
     main()  
