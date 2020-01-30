@@ -1,5 +1,3 @@
-# __bool__, __add__, __sub__, __mul__, __call__ 
-
 class Test:
     def __init__(self, val):
         self._val= val 
