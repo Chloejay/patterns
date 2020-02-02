@@ -15,6 +15,4 @@ def insertionsort(lst):
 
 
 if __name__=='__main__':
-    print(insertionsort([4,2,10,1])) 
-
-    
+    print(insertionsort([4,2,10,1]))
