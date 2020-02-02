@@ -1,4 +1,4 @@
-# divide-conquer, merge sort complexity O(n lg n) and is recrusive 
+# divide-conquer, merge sort complexity O(n lg n)
 
 
 def merge(lst1, lst2):
@@ -29,5 +29,5 @@ def mergesort(lst):
 
       
 if __name__=='__main__':
-    lst=[5,8,9,6] 
+    lst= [4,2,10,1] 
     print(mergesort(lst)) 
