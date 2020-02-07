@@ -5,36 +5,35 @@ import time
 import logging 
 
 
-async def test(n:int = None)-> int:
+def test(n:int = None)-> int:
     if n%2 != 0:
-        logger.info('SLEEP {}'.format(datetime.now()))
-        await asyncio.sleep(1)
         return n **2
 
 async def test2(n:int = None)-> int:
-    if n in range(100) and n<50:
-        return await test(n) + n**3
+    if n in range(100000) and n<90000:
+        await asyncio.sleep(0.1)
+        logger.info('SLEEP {} for {}'.format(datetime.now(), n)) 
+        return test(n)
 
-async def testAdd(m:int,n:int)-> int:
-    x = await test(m)
-    y = await test2(n) 
-    return (x,y)
-    # return f'add result is {x+y}'
+async def testAdd(a, b,c):
+    start = time.time() 
+    await asyncio.wait([
+            test2(a),
+            test2(b), 
+            test2(c),
+            ])
+    end = time.time()  
+    logger.info("Total time: {}".format(end - start))
+
 
 
 if __name__=='__main__':
     logging.basicConfig(format= '%(asctime)s - %(message)s', datefmt='[%H:%M:%S]')
     logger= logging.getLogger()
     logger.setLevel(logging.INFO) 
-    start = time.time()
-
     #create loop 
     loop= asyncio.get_event_loop() 
     try:
-        a,b =loop.run_until_complete(testAdd(9,21))
-        print(a,b)
+        loop.run_until_complete(testAdd(999, 9999, 89999))
     finally:
         loop.close() 
-
-    end = time.time()  
-    logger.info("Total time: {}".format(end - start))
