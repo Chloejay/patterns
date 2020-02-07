@@ -3,23 +3,34 @@ from pprint import pprint
 import simplejson as json 
 from bs4 import BeautifulSoup
 import time 
+import asyncio 
+import logging 
+
 
 url='https://www.goodreads.com/search/index.xml'
-TIMEOUT= 100
+TIMEOUT= 10
  
 class Request(object):
-    def __init__(self, key, url = url, timeout = TIMEOUT, _secret= ''):
+    def __init__(self, key, url = url, 
+                    timeout = TIMEOUT, 
+                    _secret= '', 
+                    logger=logging.getLogger()):
+
         self.url = url
         self.timeout = timeout 
         self._key = key 
-        self._secret=_secret
-
+        self._secret = _secret
+        logger.setLevel(logging.INFO)
+        self.logger = logger 
+    
     def send_request(self):
-        r = requests.get(self.url, timeout = self.timeout,params={'key':self._key, 'q':'some_book'}) 
+        r = requests.get(self.url, timeout = self.timeout, 
+                        params={'key':self._key, 'q':'some_book'}) 
         # print(r.status_code) #DEBUG 
         try:
 
             if r.status_code == requests.codes.ok:
+                self.logger.info('starting fetching....')
                 content = r.content 
                 c=json.dumps(content)
                 items = json.loads(c) 
