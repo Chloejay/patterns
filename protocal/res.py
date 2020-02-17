@@ -5,13 +5,14 @@ from bs4 import BeautifulSoup
 import time 
 import asyncio 
 import logging 
-
+import aiohttp 
 
 url='https://www.goodreads.com/search/index.xml'
 TIMEOUT= 10
  
 class Request(object):
-    def __init__(self, key, url = url, 
+    def __init__(self, key, 
+                    url = url, 
                     timeout = TIMEOUT, 
                     _secret= '', 
                     logger=logging.getLogger()):
@@ -24,9 +25,10 @@ class Request(object):
         self.logger = logger 
     
     def send_request(self):
-        r = requests.get(self.url, timeout = self.timeout, 
-                        params={'key':self._key, 'q':'some_book'}) 
-        # print(r.status_code) #DEBUG 
+        r = requests.get(self.url, 
+                        timeout = self.timeout, 
+                        params={'key':self._key, 
+                        'q':'some_book'}) 
         try:
 
             if r.status_code == requests.codes.ok:
@@ -48,7 +50,6 @@ class Request(object):
                     zipped=zip(authorlist, ratings) 
                     for a,r in list(zipped):
                         print(f'author name is {a}, whose book avg rating is {r}')
-                        # return (a,r) 
                         time.sleep(3)
                     
             else:
@@ -64,6 +65,18 @@ class Request(object):
     #     return r.json()  
 
 if __name__=='__main__':
-    _key='2fUAowbKb7jmPpuIsoDqA'
+    _key='X3ZhR1BQknYiwnnPeS1uAw'
     x= Request(_key) 
     print(x.send_request()) 
+
+
+# async def main(url, key):
+    
+#     async with aiohttp.ClientSession() as sess:
+#         async with sess.get(url,params= {'key':key, 'q':'some_book'}) as r:
+#             content = await r.text()
+#             return content 
+
+# loop= asyncio.get_event_loop() 
+# c= loop.run_until_complete(main(url, key))
+# print(c) 
