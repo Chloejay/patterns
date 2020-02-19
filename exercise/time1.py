@@ -27,7 +27,7 @@ def sleep(timeout, retry=2):
     return func
 
 @sleep(3)
-def check_service(url: str)-> None:
+def check_service(url: str)-> str:
     try:
         res= requests.get(url)
         data= res.text

@@ -39,11 +39,12 @@ class Habit(Playland):
         return f'{self._play}' 
 
 # static factory 
-class City:
+class City(ABC):
     def __init__ (self, city):
         self.city= city 
 
-    def visit():
+    @abstractmethod
+    def visit(self):
         raise NotImplementedError 
 
     @staticmethod 

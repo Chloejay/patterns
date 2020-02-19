@@ -7,7 +7,7 @@ def main():
     return lst 
 
 class Node:
-    def __init__(self, data: str, next=None):
+    def __init__(self, data: str, next= None):
         self.data= data
         self.next= next
 

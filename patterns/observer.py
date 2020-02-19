@@ -15,7 +15,7 @@ class Observer(ABC): #aka. subscriber
     def update(self, *args, **kwargs):
         raise NotImplementedError ('implement on the concretClass....') 
 
-class Observer(Observer): #observer 
+class ObserverOne(Observer): #observer 
     def __init__(self,name):
         self.name= name 
 
@@ -106,7 +106,7 @@ def main():
     def callObserver():
         try:
             pub= ConcretSubject() 
-            observer1= Observer('apple') 
+            observer1= ObserverOne('apple') 
             observer2=ObserverTwo('banana')
             pub.attach(observer1, observer1.update)
             pub.attach(observer2, observer2.update) 

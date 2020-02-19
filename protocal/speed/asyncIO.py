@@ -7,13 +7,14 @@ import logging
 
 def test(n:int = None)-> int:
     if n%2 != 0:
-        return n **2
+        return n ** 2
+    return None 
 
-async def test2(n:int = None, when: float=0.1)-> int:
-    if n in range(100000) and n<90000:
+async def test2(n: int = None, when: float = 0.1) -> int:
+    if n in range(100000) and n< 90000:
         await asyncio.sleep(when)
         logger.info('SLEEP {} for {}'.format(datetime.now(), n)) 
-        return test(n)
+    return test(n)
 
 async def testAdd(a, b,c, when):
     start = time.time() 

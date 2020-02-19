@@ -36,7 +36,7 @@ def wrapper_outside(fn_call_inside_wrapper):
     return wrapper 
 
 @wrapper_outside 
-def call_anything(a:int, b:int)-> Iterable[int]:
+def call_anything(a:int, b:int)-> Iterable[str]:
     return f'combine arguments into one {a*b if a>b else a/b }' 
 
 def partialFn(arg1, arg2):
@@ -88,9 +88,9 @@ class Test_2:
         return result 
 
 @Test_2
-def addEle(val:int, val2:int)->Iterable[int]: 
+def addEle(val:int, val2:int)-> int: 
     print(val, val2)
-    return val+val2 
+    return val + val2 
 
 # decorator outside the class and use self and wrapper function 
 def outsider_fn(fn):
@@ -221,7 +221,7 @@ if __name__=='__main__':
     testAge= Age()
     testAge.add_age(8) 
     person= Test('chloe',28)
-    person.change_email='emily'
+    person.get_email='emily'
     print(person.get_email) 
     print(person.write('combine english yet maths to compile so called algorithm')) 
     print(Test.test_fullname) #bound method of Test
