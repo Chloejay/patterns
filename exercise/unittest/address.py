@@ -15,7 +15,7 @@ class Human:
         
     @property 
     def get_perosn(self):
-        return f'name is {self._lastName} and age is{self._age}' 
+        return f'name is {self._lastName} and age is {self._age}' 
 
     def increase_amt(self):
         self._age = self._age + self.old_age
