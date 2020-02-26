@@ -1,5 +1,5 @@
 '''
-when to use: to fix the mismatch and incompatibility of the interfaces. 
+when to use: to fix the mismatch and incompatibility of interfaces. 
 multiple classes have similar property, but different behaviors, by inheritate generalClass 
 and adapte class's implementation, the concept of duck typing.  
 
@@ -17,7 +17,7 @@ from abc import ABC, abstractmethod
 
 
 class FakeCity(ABC): 
-    def __init__(self, site):
+    def __init__(self, site: str):
         self.site= site 
 
     @abstractmethod 
@@ -25,14 +25,14 @@ class FakeCity(ABC):
         raise NotImplementedError('add concret behaviors ....') 
 
 class Mountain(FakeCity):
-    def __init__(self,site):
+    def __init__(self,site: str):
         self.site = site
 
     def spacetravel(self):
         return f'space travel in {self.site}' 
 
 class Ocean(object):
-    def __init__(self, site):
+    def __init__(self, site: str):
         self.site = site
 
     def swim(self):
@@ -46,10 +46,10 @@ class ObjectAdapter(FakeCity):
     def spacetravel(self):
         return self.site.travel() 
 
-    def __getattr__(self, attr): 
+    def __getattr__(self, attr: str)-> str: 
         return getattr(self.site, attr)
 
-# to abstract the common interface 
+# abstract common interface 
 class OceanAdapter(Ocean, FakeCity):
     def __init__(self, site):
         Ocean.__init__(self, site) 

@@ -3,8 +3,6 @@ import requests
 import logging 
 from pprint import pprint 
 import functools 
-
-
 logging.basicConfig(level=logging.INFO)
 
 class ServiceUnavailableError(Exception):
@@ -32,7 +30,7 @@ def check_service(url: str)-> str:
         res= requests.get(url)
         data= res.text
 
-        if res.status_code !=200:
+        if res.status_code != 200:
             raise ServiceUnavailableError() 
     except (
         requests.exceptions.ConnectionError, 
@@ -43,8 +41,7 @@ def check_service(url: str)-> str:
     else:
         return data 
     finally:
-        pprint(f'{url} load is ok')
- 
+        logging.info(f'{url} load is ok')
 
 
 

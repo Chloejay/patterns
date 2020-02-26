@@ -4,10 +4,9 @@ decorator pattern, inspired by GoF book. below decorator is illustrated in three
 - @property, @staticmethod and @classmethod 
 - built in packages functools.wraps() 
 
-why? (use decorator)- @decorator is just the shortcut for the fn=@decorator(fn), its behavior is to replace the decorated 
-function with a new callable object, that accepts the same args and return related value, keep the code more DRY and 
-extend functionality with more ease and flexibility, without inheritance. keep in mind, decorator is just the `wrapper`, 
-kind of closure type, which extends the functions in a mask way. 
+why? (use decorator)- @decorator is just the shortcut for fn=@decorator(fn), its behavior is to replace the decorated 
+function with a new callable object, that accepts the same args and return related value multiply times, keep code more DRY and 
+extend functionality with more flexibility, without inheritance, decorator is just the `wrapper`, kind of closure type. 
 '''
 
 # fn return fn, used concept closure and wrapper (attach additional reponsibilities to an object dynamically) 
@@ -21,7 +20,7 @@ def wrape_single_args(fn):
     return text 
 
 @wrape_single_args  
-def write(msg,msg2):
+def write(msg, msg2):
     return f'the morning msg is {msg}->{msg2}' 
 
 class WriteClass:
@@ -45,46 +44,48 @@ def partialFn(arg1, arg2):
 # closure concept for the free variable and nonlocal vraibale concept 
 def count():
     list_= list()
+
     def sum_count(val):
         list_.append(val) #list_, a free variable 
         total= sum(list_)
         return total 
+
     return sum_count 
 
 countInstance= count() 
 
 def make_avg():
-    count, total=0, 0 
+    count, total= 0, 0 
 
     def avg(new_val):
         nonlocal count, total 
-        count+=1
+        count+= 1
         total+= new_val 
         return total/count 
     return avg 
 
 avg_instance= make_avg() 
 
-#lass decorated function 
+#decorated class   
 class Test_1:
     def __init__(self,fn):
         self.fn= fn 
-        self.callCount=0 
+        self.callCount= 0 
     
     def __call__(self, *args): #use __call__ to make class callable 
-        self.callCount+=1
+        self.callCount+= 1
         self.fn(self.callCount, *args)
 
 @Test_1
 def write_again(val, val2):
-    print('OK! call {} for {} times'.format(val2, val))  
+    print(f'OK! call {val2} for {val} times') 
 
 class Test_2:
     def __init__(self, fn):
-        self.fn= fn 
+        self.fn = fn 
 
     def __call__(self, *args, **kwargs):
-        result= self.fn(*args, **kwargs)
+        result = self.fn(*args, **kwargs)
         return result 
 
 @Test_2
@@ -95,35 +96,35 @@ def addEle(val:int, val2:int)-> int:
 # decorator outside the class and use self and wrapper function 
 def outsider_fn(fn):
     def wrapper(self, age):
-        age= age+1
+        age= age + 1
         return fn(self,age)
     return wrapper 
 
 class Age(object):
     def __init__(self):
-        self.adultAge= 20
+        self.adultAge = 20
     @outsider_fn
     def add_age(self, age):
-        print('my age is {} in 2020'.format(self.adultAge + age)) 
+        print(f'my age is {self.adultAge + age} in 2020')  
 
 # @property, @staticmethod, @classmethod decorator 
 class Test:
     def __init__ (self, first, age, last='ji'):
-        self._firstName= first
-        self._lastName= last 
-        self.age= age 
-        self.city= 'town'
+        self._firstName = first
+        self._lastName = last 
+        self.age = age 
+        self.city = 'town'
 
     @property 
     def get_email(self):
         try:
-            return f'{self._firstName}-{self._lastName}@gmail.com' 
+            return f'{self._firstName} - {self._lastName}@gmail.com' 
         except AttributeError as e:
             print(str(e)) 
 
     @get_email.setter
     def get_email(self, new_name):
-        self._firstName=new_name
+        self._firstName = new_name
         # return f'{self._firstName}-{self._lastName}@gmail.com' 
 
     @get_email.deleter 
@@ -139,7 +140,7 @@ class Test:
         return f'fullname is {first} {last}' 
     @classmethod 
     def rewrite(cls,x):
-        return cls.write(x) + '!'
+        return cls.write(x) +' ' + '🤗'
     @classmethod 
     def test(cls,x):
         cls.city='space'
@@ -147,7 +148,7 @@ class Test:
 
 # use functools.wraps 
 '''
-# the helper function 
+# helper function 
 def decorator(fn):
     #the functool.wraps is a tool to copy the wrapped function's infos,like the docstring and name 
     @wraps(fn) 
@@ -161,7 +162,6 @@ def timer(func):
     def wrapper(*args, **kwargs):
         import time 
         try:
-            func_name= func.__name__ 
             start= time.perf_counter() #measure program run time 
             value= func(*args, **kwargs)
             end= time.perf_counter() 
@@ -170,6 +170,7 @@ def timer(func):
             print(f"Finished {func.__name__!r} in {run_time:.2f} secs") 
         except Exception:
             pass 
+
         return value
     return wrapper 
 
@@ -180,26 +181,26 @@ def time_recored(time):
 
 #extra- mix conditions 
 def test_call(have_call):
+
     def wrapper(*args): 
         from datetime import datetime 
-        if 5<datetime.now().hour<20: 
+        if 5< datetime.now().hour< 20: 
             return have_call(*args)
-        else:
-            print('Good Night then!') 
+        print('Good Night then!') 
     return wrapper
 
 @test_call
 def call(name, city):
-    return ('halo {}, whom lives in {}'.format(name, city)) 
+    return f'halo {name}, whom lives in {city}'  
 # test_call(call)() 
 
-# use the function as the condtion 
-def test_con(a,x,y):
+# use function as condtion, another use case use dev_main and pro_main
+def test_con(a, x, y):
     def fn1(x):
         return f'the condtion one {x}'
     def fn2(y):
        return f'the condtion two {y}' 
-    if a=='ok':
+    if a == 'ok':
         return fn1(x) 
     else:
         return fn2(y)

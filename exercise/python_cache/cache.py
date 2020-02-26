@@ -11,7 +11,7 @@ def logtime(if_cache_func):
         result = if_cache_func(*args, **kwargs)
         exc_time = time()- start
 
-        with open (f'{if_cache_func.__name__}_eventLog.txt', 'a') as outf:
+        with open (f'fib_log/{if_cache_func.__name__}_eventLog.txt', 'a') as outf:
             outf.write(f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")}\t{if_cache_func.__name__}\t{exc_time:.4f}\n')
         return result 
 
@@ -26,7 +26,7 @@ def fib(number: int) -> int:
     return fib(number-1) + fib(number-2)
 
 
-#maxsize is size of cache, if is None, lru features are disabled and cache can grow without bound
+#cache size set to 32 
 @lru_cache(maxsize = 32)
 @logtime
 def fib_memoization(n: int)-> int:

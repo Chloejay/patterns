@@ -1,2 +1,1 @@
-run <br/>
-`python -m unittest` to test the testing result 
+run `python -m unittest` to output testing result 

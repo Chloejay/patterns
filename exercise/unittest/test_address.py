@@ -1,11 +1,10 @@
-import unittest
-from unittest import TestCase
+from unittest import TestCase, main
 from address import Human 
 
 
 class TestAge(TestCase):
     '''
-    to avoid repeating create instance, use helper function setUp()
+    to avoid repeated instance, use helper function setUp() and tearDown() 
     '''
     def setUp(self):
         print('set up')
@@ -32,4 +31,5 @@ class TestAge(TestCase):
 
 
 if __name__=='__main__':
-    unittest.main()  
+    main()
+    
