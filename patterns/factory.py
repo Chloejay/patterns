@@ -1,8 +1,5 @@
 '''
-Factory pattern, to instantiate the new object in one factory(encapsulation), to keep base class
-in a mode of 'close for modification', let subclass to decide which class to instantiate, 
-also aka static factory. Along with is the abstract factory, create a interface as objects which 
-belonged as one family. 
+Factory, typical OOP interface/implementation pattern. 
 
 resource: 
 https://krzysztofzuraw.com/blog/2016/factory-pattern-python.html 
@@ -10,12 +7,14 @@ https://www.giacomodebidda.com/factory-method-and-abstract-factory-in-python/
 https://stackoverflow.com/questions/3570796/why-use-abstract-base-classes-in-python
 '''
 
-from abc import ABC, abstractmethod 
+
+from abc import ABC, abstractmethod
+
 
 class Playland(ABC):
-    def __init__(self, name, play):
-        self._name= name
-        self._play= play 
+    def __init__(self, name:str, play:str)->None:
+        self._name = name
+        self._play = play 
 
     @abstractmethod 
     def make_play(self):
@@ -27,21 +26,21 @@ class Playland(ABC):
 
 class Dream(Playland):
     def make_play(self):
-        return f'{self._name} is play the {self._play}' 
+        return f'{self._name} is {self._play}' 
 
     def sabotage_play(self):
         return f'{self._play}' 
 
 class Habit(Playland):
     def make_play(self):
-        return f'{self._name} is play the {self._play}' 
+        return f'{self._name} is {self._play}' 
     def sabotage_play(self):
         return f'{self._play}' 
 
 # static factory 
 class City(ABC):
-    def __init__ (self, city):
-        self.city= city 
+    def __init__ (self, city:str)->None:
+        self.city = city 
 
     @abstractmethod
     def visit(self):
@@ -49,9 +48,9 @@ class City(ABC):
 
     @staticmethod 
     def visitFactory(type, just_args):
-        if type=='train':
+        if type == 'train':
             return Train(just_args)
-        if type=='bike':
+        if type == 'bike':
             return Bike(just_args)
         else:
             raise 
@@ -65,12 +64,12 @@ class Bike(City):
         print('visit {} by bike'.format(self.city)) 
 
 
-if __name__=='__main__':
-    list_=[Dream('emma','designer'),
+if __name__ == '__main__':
+    list_ = [Dream('emma','designer'),
             Habit('chloe','walking')]
 
     for l in list_:
-        print('test for {}'.format(l.make_play())) 
-        print('sabotage the habit {}'.format(l.sabotage_play())) 
+        print('{}'.format(l.make_play())) 
+        print('sabotage habit {}'.format(l.sabotage_play())) 
     
     print(City.visitFactory('bike', 'foresttown').visit()) 

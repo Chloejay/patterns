@@ -1,56 +1,57 @@
 '''
-the hardcore of observer pattern is pub/sub originated from event streaming concept, which uses one-to-many structure. 
-Based on GoF book Observer has four parts, subject, concretSubject, observer and concretObserver as 
-interface and implementation. 'encapsulate interchangable behaviors and use delegation to decide which one to use' 
-is the concept mentioned in Head First Design Pattern book. 
+pub/sub <=> observer pattern, uses one-to-many structure. 
+From `GoF` book Observer, it has subject, concretSubject, observer and concretObserver as 
+interface and implementation. <cite> "encapsulate interchangable behaviors and use 
+delegation to decide which one to use"</cite> is the concept mentioned in `Head First Design 
+Pattern` book. 
 '''
 
-from abc import ABC, abstractmethod #use compound patterns 
+from abc import ABC, abstractmethod 
 
 class Observer(ABC): #aka. subscriber 
-    def __init__(self, name):
-        self.name= name 
+    def __init__(self, name:str)->None:
+        self.name = name 
 
     @abstractmethod 
     def update(self, *args, **kwargs):
         raise NotImplementedError ('implement on the concretClass....') 
 
 class ObserverOne(Observer): #observer 
-    def __init__(self,name):
-        self.name= name 
+    def __init__(self,name:str)->None:
+        self.name = name 
 
     def update(self, *args, **kwargs):
         print('{} gets message {}'.format(self.name, args, kwargs)) 
 
 class ObserverTwo(Observer): #observer 
-    def __init__(self,name):
-        self.name= name 
+    def __init__(self,name:str)->None:
+        self.name = name 
 
     def update(self, *args, **kwargs):
-        print('{} gets message also {}'.format(self.name, args, kwargs)) 
+        print('f{} gets message also {}'.format(self.name, args, kwargs)) 
 
 class Subject(ABC):
     @abstractmethod 
     def attach(self):
         pass 
-    def disatch(self):
+    def dispatch(self):
         pass
     def notify(self):
         pass 
 
-class ConcretSubject(Subject): #aka. observable/Publisher, object is being observed, use this as interface 
+class ConcretSubject(Subject): #aka. observable/Publisher, object is being observed  
     def __init__(self):
-        self.subscribers=dict() 
+        self.subscribers = dict() 
 
-    def attach(self, observer, callback=None): #any object can self register to be observer 
+    def attach(self, observer, callback = None): #any object can self register to be observer 
         if callback is None:
-             callback= getattr(observer, 'callback_method') #trade-off for multiple attrs 
-        self.subscribers[observer]= callback
+             callback = getattr(observer, 'callback_method') #trade-off for multiple attrs 
+        self.subscribers[observer] = callback
 
-    def disatch(self, observer): 
+    def dispatch(self, observer): 
         del self.subscribers[observer] 
 
-    def disatch_all(self):
+    def dispatch_all(self):
         del self.subscribers
 
     def notify(self, *message):
@@ -60,10 +61,12 @@ class ConcretSubject(Subject): #aka. observable/Publisher, object is being obser
 #use first-class function instead of using abstract class 
 class SubjectFn(object):
     def __init__(self):
-        self.observers= list()
+        self.observers = list()
+
     def attach(self, fn):
         self.observers.append(fn)
         return fn 
+
     def notify(self, *args, **kwargs):
         for fn in self.observers:
             fn(*args, **kwargs)
@@ -74,10 +77,10 @@ class ObseverFn(object):
         
 #implement
 class Event:
-    _observers=list() 
+    _observers = list() 
 
     def __init__(self, *args):
-        self.args= args
+        self.args = args
 
     @classmethod 
     def attach(cls, *observer):
@@ -85,7 +88,7 @@ class Event:
             cls._observers.append(*observer)
 
     @classmethod 
-    def disattch(cls, *observer):
+    def dispatch(cls, *observer):
         if observer in cls._observers:
             self._observers.remove(*observer)
 
@@ -104,25 +107,28 @@ class observer_test2:
 
 def main():
     def callObserver():
+
         try:
-            pub= ConcretSubject() 
-            observer1= ObserverOne('apple') 
-            observer2=ObserverTwo('banana')
+            pub = ConcretSubject() 
+            observer1 = ObserverOne('apple') 
+            observer2 = ObserverTwo('banana')
             pub.attach(observer1, observer1.update)
             pub.attach(observer2, observer2.update) 
             pub.notify('time is up!','>')
-            pub.disatch(observer2)
-            pub.disatch_all() 
+            pub.dispatch(observer2)
+            pub.dispatch_all() 
             pub.notify('kill one!','<')  
+
         except AttributeError as e:
             import logging 
             logging.info(e) 
             pass 
+
     callObserver()
 
     def callObserver2():
-        obj= SubjectFn() 
-        observer= ObseverFn() 
+        obj = SubjectFn() 
+        observer = ObseverFn() 
         print(obj.attach(observer.fn('ok','viola'))) 
     callObserver2()  
 
@@ -135,6 +141,5 @@ def main():
 
 
 
-if __name__=='__main__':
+if __name__ == '__main__':
     main() 
-

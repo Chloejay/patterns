@@ -1,9 +1,9 @@
 '''
-visitor pattern creates new operations by adding new subclass to the visitor class hierarchy, without altering 
-the base class, keep the related operations in one group. 
-from GoF UML, concretVisitor class override Visitor Class operations to implement visitor-specific behaviors for 
-the ConcretVistable class, and once the AbstractVisitable accept the visitor, it sends the request to the 
-ConcretVisitor elements and encode the visitor's code.  
+visitor pattern creates new operations by adding new subclass to hierarchy, without altering base class. 
+
+from GoF UML, concretVisitor class override Visitor Class operations to implement visitor-specific behaviors
+for the ConcretVistable class, and once AbstractVisitable accept visitor, it sends an request to 
+ConcretVisitor elements and encode visitor's code.  
 '''
 
 from abc import ABC, abstractmethod 
@@ -43,30 +43,30 @@ class ConcretVisitorC(AbstractVisitor):
 class VisitableElement: 
     # define an accept operation that take visitor as argument 
     def accept(self, visitor):
-        val= 'visit_{}'.format(self.__class__.__name__) 
-        visitorInstance=getattr(visitor, val) #getattr(object,'x')== object.x  
+        val = 'visit_{}'.format(self.__class__.__name__) 
+        visitorInstance = getattr(visitor, val) #getattr(object,'x')== object.x  
         return visitorInstance(self) 
 
 class Int(VisitableElement):
     def __init__(self, a):
-        self.a= a
+        self.a = a
 
 class ConcretVisitableAdd(VisitableElement):
     def __init__(self, a, b):
-        self.a= a
-        self.b= b 
+        self.a = a
+        self.b = b 
     
 class ConcretVisitablePow(VisitableElement):
     def __init__(self, a, b):
-        self.a= a
-        self.b= b
+        self.a = a
+        self.b = b
 
 
 
-if __name__=='__main__':
-    output1= ConcretVisitableAdd(Int(1),Int(2)).accept(ConcretVisitorA())
-    output2= ConcretVisitableAdd(Int(1.5),Int(2)).accept(ConcretVisitorB()) 
-    output3= ConcretVisitablePow(Int(1/2),Int(1/2)).accept(ConcretVisitorC()) 
-    list_=[output1, output2, output3]
+if __name__ == '__main__':
+    output1  = ConcretVisitableAdd(Int(1),Int(2)).accept(ConcretVisitorA())
+    output2  = ConcretVisitableAdd(Int(1.5),Int(2)).accept(ConcretVisitorB()) 
+    output3  = ConcretVisitablePow(Int(1/2),Int(1/2)).accept(ConcretVisitorC()) 
+    list_ = [output1, output2, output3]
     for output in list_:
-        print(output)  
+        print(output) 

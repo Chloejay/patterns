@@ -1,4 +1,4 @@
-# a template for setting up a Python open source project 
+#### a template for setting up a Python open source project 
 
 ref. http://michal.karzynski.pl/blog/2019/05/26/python-project-maturity-checklist/
 
@@ -17,7 +17,7 @@ setup(
     install_requires=["colorful", "docopt"],
 ) 
 ```
-###### on requirements.txt to generate the detailed version of each dependency. 
+Generate on requirements.txt, the detailed version of each dependency. 
 
 #### Set up a Git repo
 ```
@@ -40,24 +40,24 @@ $ pre-commit sample-config
 $ pre-commit install
 #see more details on https://pre-commit.com/ 
 ```
-Black will be called to check your style when running `git commit`.
+Black will be called to check the style when running `git commit`.
 
 #### Pylint or Flake8 
 
 #### Create a tox.ini config
 
 #### Refactor your code to be unit-testable and add tests
-<small>Tip: Using unit tests is one of the best practices. Writing good unit tests is an art and it takes time, but it’s an investment which pays off many times over, especially on a large project which you maintain over a long period.</small>
+<small>Tip: Using unit tests is one of the best practices. </small>
 
 ```
 $ pip install pytest
 $ pytest 
 ```
-Make sure to add the pytest command to your tox.ini file. 
+Make sure to add pytest command tox.ini file. 
 ```
 $ pip install pytest pytest-cov 
 #to use pytest-cov to generate the pytest testing report 
-$ pytest --cov=my_module --cov-report=html tests/
+$ pytest --cov = my_module --cov-report=html tests/
 ```
 #### Add docstrings and documentation
 
@@ -68,4 +68,5 @@ $ mypy --config-file=tox.ini module_name
 ```
 
 #### Requirement.txt updater 
-The best way to deal with changing dependencies it to use a service, which periodically bumps versions in your requirements.txt files and creates a pull request with each version change. using Pyup https://pyup.io/ or Dependabot, which is automated offered by GitHub. 
+The best way to deal with changing dependencies it to use a service, which periodically bumps versions in the requirements.txt files and creates a pull request with each version change. using Pyup https://pyup.io/ or Dependabot, which is automated offered by GitHub. 
+

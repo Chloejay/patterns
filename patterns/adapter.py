@@ -1,7 +1,6 @@
 '''
-when to use: to fix the mismatch and incompatibility of interfaces. 
-multiple classes have similar property, but different behaviors, by inheritate generalClass 
-and adapte class's implementation, the concept of duck typing.  
+when to use: fix the mismatch and incompatibility of interfaces. 
+multiple classes have similar property, but different behaviors, by inheritate generics as a family.  
 
 two types of adapter (aka.wrapper):
 - class adapter uses multiple inheritance to adapt one interface to another
@@ -17,31 +16,31 @@ from abc import ABC, abstractmethod
 
 
 class FakeCity(ABC): 
-    def __init__(self, site: str):
-        self.site= site 
+    def __init__(self, site: str)->None:
+        self.site = site 
 
     @abstractmethod 
     def spacetravel(self):
-        raise NotImplementedError('add concret behaviors ....') 
+        raise NotImplementedError('add concrete behaviors ....') 
 
 class Mountain(FakeCity):
-    def __init__(self,site: str):
+    def __init__(self,site:str)-> None:
         self.site = site
 
-    def spacetravel(self):
+    def spacetravel(self)-> str:
         return f'space travel in {self.site}' 
 
 class Ocean(object):
-    def __init__(self, site: str):
+    def __init__(self, site: str)-> None:
         self.site = site
 
-    def swim(self):
+    def swim(self)-> str:
         return f'ocean swim in {self.site}' 
 
-#use object adapter, adapt the interface of its parent's class and return adaptee's function 
+#interface 
 class ObjectAdapter(FakeCity):
-    def __init__(self, site):
-        self.site= site
+    def __init__(self, site:str)-> None:
+        self.site = site
 
     def spacetravel(self):
         return self.site.travel() 
@@ -51,7 +50,7 @@ class ObjectAdapter(FakeCity):
 
 # abstract common interface 
 class OceanAdapter(Ocean, FakeCity):
-    def __init__(self, site):
+    def __init__(self, site:str)-> None:
         Ocean.__init__(self, site) 
 
     def spacetravel(self):
@@ -59,10 +58,10 @@ class OceanAdapter(Ocean, FakeCity):
 
 
 
-if __name__=='__main__':
-    mountain= Mountain('everest') 
-    ocean= OceanAdapter('riviera') 
-    oceanObj= ObjectAdapter(Ocean('riviera_site'))
+if __name__ == '__main__':
+    mountain = Mountain('everest') 
+    ocean = OceanAdapter('riviera') 
+    oceanObj = ObjectAdapter(Ocean('riviera_site'))
     print(mountain.spacetravel())
     print(ocean.spacetravel()) 
     print(oceanObj.swim())  
