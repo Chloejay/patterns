@@ -1,18 +1,18 @@
 '''
-Factory, typical OOP interface/implementation pattern. 
+Factory, typical OOP interface/implementation structure. 
 
 resource: 
 https://krzysztofzuraw.com/blog/2016/factory-pattern-python.html 
-https://www.giacomodebidda.com/factory-method-and-abstract-factory-in-python/ 
 https://stackoverflow.com/questions/3570796/why-use-abstract-base-classes-in-python
+https://en.wikipedia.org/wiki/Factory_(object-oriented_programming)
 '''
 
 
 from abc import ABC, abstractmethod
 
-
+# abstract factory
 class Playland(ABC):
-    def __init__(self, name:str, play:str)->None:
+    def __init__(self, name:str, play:str)-> None:
         self._name = name
         self._play = play 
 
@@ -39,7 +39,7 @@ class Habit(Playland):
 
 # static factory 
 class City(ABC):
-    def __init__ (self, city:str)->None:
+    def __init__ (self, city:str)-> None:
         self.city = city 
 
     @abstractmethod
@@ -62,6 +62,13 @@ class Train(City):
 class Bike(City):
     def visit(self): 
         print('visit {} by bike'.format(self.city)) 
+
+
+# factory object
+def factory_method(transportation: None):
+    tools = {"forresttown": Bike, "city?": Train}
+    if transportation and transportation in tools:
+        return tools[transportation] 
 
 
 if __name__ == '__main__':

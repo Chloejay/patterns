@@ -3,7 +3,7 @@ from collections import defaultdict
 from future.utils import iteritems
 from functools import reduce 
 
-#use functional programming concept here based on Scala, to write some FP in python. 
+#use functional programming concept based on Scala.  
 
 A = TypeVar("A") 
 
@@ -24,7 +24,7 @@ class Monoid(Generic[A]):
 
     def __init__(self, empty, combine):
         self.empty = empty 
-        self. combine = combine 
+        self.combine = combine 
 
     def monoid_combine(self, iterable):
         return monoid_combine(self, iterable) 
@@ -58,4 +58,3 @@ if __name__ == "__main__":
     print(groupBy(lambda x: x*x, [1,2]))
     filter = filter_keys(lambda x: x % 2 == 0, {1:"a", 2:"b"}) 
     print(filter) 
-
