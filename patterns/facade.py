@@ -5,7 +5,7 @@ facade: information hiding, encapsulation, separate of conerns
 # subsystem(complex part)
 class Mind(object):
 
-    def __init__(self, think)->None:
+    def __init__(self, think:str)->None:
         self._think = think 
 
     def talk(self, v:str)->str:
@@ -21,7 +21,7 @@ class Mind(object):
             return "work on progress, please wait!"
 
 # facade character (wrap complex part)
-class Facede_Role(object):
+class Facade_Role(object):
 
     def __init__(self, thought: Mind)->None:
         self._thought = thought 
@@ -37,12 +37,12 @@ class Facede_Role(object):
         return (("\n").join(res))  
 
 # request service 
-def energy_consume(vibration: Facede_Role)->str:
+def energy_consume(vibration: Facade_Role)->str:
     return vibration.ops() 
 
 
 if __name__ == "__main__":
 
     particle = Mind("abstraction is another concrete") 
-    record = Facede_Role(particle)
+    record = Facade_Role(particle)
     print(energy_consume(record))
