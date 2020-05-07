@@ -2,7 +2,7 @@
 when to use: fix the mismatch and incompatibility of interfaces. 
 multiple classes have similar property, but different behaviors, by inheritate generics as a family.  
 
-two types of adapter (aka.wrapper):
+two types of adapter (aka.wrapper class):
 - class adapter uses multiple inheritance to adapt one interface to another
 - object adapter uses encapsulation and relies on object composition 
 
@@ -24,45 +24,44 @@ class FakeCity(ABC):
         raise NotImplementedError('add concrete behaviors ....') 
 
 class Mountain(FakeCity):
-    def __init__(self,site:str)-> None:
+    def __init__(self, site: str)-> None:
         self.site = site
 
     def spacetravel(self)-> str:
-        return f'space travel in {self.site}' 
+        return f'space travel in {self.site}'
 
 class Ocean(object):
     def __init__(self, site: str)-> None:
         self.site = site
 
     def swim(self)-> str:
-        return f'ocean swim in {self.site}' 
+        return f'ocean swim in {self.site}'
 
-#interface 
+#interface
 class ObjectAdapter(FakeCity):
-    def __init__(self, site:str)-> None:
+    def __init__(self, site: str)-> None:
         self.site = site
 
     def spacetravel(self):
-        return self.site.travel() 
+        return self.site.travel()
 
-    def __getattr__(self, attr: str)-> str: 
+    def __getattr__(self, attr: str)-> str:
         return getattr(self.site, attr)
 
-# abstract common interface 
+# abstract common interface
 class OceanAdapter(Ocean, FakeCity):
-    def __init__(self, site:str)-> None:
-        Ocean.__init__(self, site) 
+    def __init__(self, site: str)-> None:
+        Ocean.__init__(self, site)
 
     def spacetravel(self):
-        return self.swim() 
+        return self.swim()
 
 
 
 if __name__ == '__main__':
-    mountain = Mountain('everest') 
-    ocean = OceanAdapter('riviera') 
-    oceanObj = ObjectAdapter(Ocean('riviera_site'))
-    print(mountain.spacetravel())
-    print(ocean.spacetravel()) 
-    print(oceanObj.swim())  
-    
+    MOUNTAIN = Mountain('everest')
+    OCEAN = OceanAdapter('riviera')
+    OCEANObj = ObjectAdapter(Ocean('riviera_site'))
+    print(MOUNTAIN.spacetravel())
+    print(OCEAN.spacetravel())
+    print(OCEANObj.swim())
