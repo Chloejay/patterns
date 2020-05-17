@@ -1,3 +1,5 @@
+#! /usr/bin/env python
+
 '''
 Factory, typical OOP interface/implementation structure. 
 

@@ -1,2 +1,3 @@
-from cryptography.fernet import Fernet
+#! /usr/bin/env python
 
+from cryptography.fernet import Fernet

@@ -1,8 +1,10 @@
+#! /usr/bin/env python
+
 from functools import lru_cache 
 from time import time 
 from datetime import datetime 
 import logging 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level = logging.INFO)
 
 
 def logtime(if_cache_func):
@@ -29,19 +31,19 @@ def fib(number: int) -> int:
 #cache size set to 32 
 @lru_cache(maxsize = 32)
 @logtime
-def fib_memoization(n: int)-> int:
+def fib_memorization(n: int)-> int:
     if n == 0:
         return 0
     elif n == 1:
         return 1
 
-    return fib_memoization(n-1) + fib_memoization(n-2)
+    return fib_memorization(n-1) + fib_memorization(n-2)
 
 
 def main():
     fib(20)
-    fib_memoization(20)
-    logging.info(fib_memoization.cache_info())
+    fib_memorization(20)
+    logging.info(fib_memorization.cache_info())
 
 
 if __name__ == '__main__':

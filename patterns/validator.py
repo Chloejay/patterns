@@ -1,3 +1,5 @@
+#! /usr/bin/env python
+
 #build class independently, let inheritance discover itself 
 
 from abc import ABC, abstractmethod 

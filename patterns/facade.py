@@ -1,3 +1,5 @@
+#! /usr/bin/env python
+
 '''
 facade: information hiding, encapsulation, separate of conerns
 '''

@@ -1,3 +1,5 @@
+#! /usr/bin/env python
+
 """
 when two classes share the same behaviors, then use tempate pattern to generalize to one class,
 abstract superclass

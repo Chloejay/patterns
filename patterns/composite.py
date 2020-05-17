@@ -1,3 +1,5 @@
+#! /usr/bin/env python
+
 '''
 composition, compose nested structure to build tree-like structure.
 structure: create component interface, implement composit and leaf class.

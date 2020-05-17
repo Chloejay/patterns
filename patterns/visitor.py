@@ -1,8 +1,10 @@
+#! /usr/bin/env python
+
 '''
 visitor pattern creates new operations by adding new subclass to hierarchy, without altering base class. 
 
 from GoF UML, concretVisitor class override Visitor Class operations to implement visitor-specific behaviors
-for the ConcretVistable class, and once AbstractVisitable accept visitor, it sends an request to 
+for the ConcretVisitable class, and once AbstractVisitable accept visitor, it sends an request to 
 ConcretVisitor elements and encode visitor's code.  
 '''
 

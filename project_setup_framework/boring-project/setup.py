@@ -17,6 +17,4 @@ setuptools.setup(
     # packages= ['boring-project-set-up'], 
     python_requires = '>=3.6',
     install_requires = ["setuptools", "docopt"]
-
 )
-

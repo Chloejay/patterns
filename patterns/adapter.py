@@ -1,3 +1,4 @@
+#! /usr/bin/env python
 '''
 when to use: fix the mismatch and incompatibility of interfaces. 
 multiple classes have similar property, but different behaviors, by inheritate generics as a family.  

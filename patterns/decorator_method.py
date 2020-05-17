@@ -1,3 +1,5 @@
+#! /usr/bin/env python
+
 '''
 Python decorator methods, @decorator is shortcut for fn = @decorator(fn), a wrapper
 - object (function and class) in closure style

@@ -1,3 +1,5 @@
+#! /usr/bin/env python
+
 def quicksort(lst):
     
     if len(lst) <= 1:
@@ -5,7 +7,7 @@ def quicksort(lst):
     else:
         import random
         pivot= random.choice(lst)
-        left, middle,right= [], [], []
+        left, middle,right = [], [], []
         for val in lst:
             if val < pivot:
                 left.append(val)
@@ -18,5 +20,6 @@ def quicksort(lst):
 
 
     
-if __name__=='__main__':
-    print(quicksort([4,2,10,1])) 
+if __name__ == '__main__':
+
+    print(quicksort([4,2,10,1]))

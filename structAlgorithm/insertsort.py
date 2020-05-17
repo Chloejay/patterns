@@ -1,3 +1,5 @@
+#! /usr/bin/env python
+
 def insertionsort(lst):
     n= len(lst)
     for i in range(n):
