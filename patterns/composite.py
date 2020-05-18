@@ -46,7 +46,7 @@ class Leaf(ComponentInterface):
 # composite class, children components management interface
 class Composite(ComponentInterface):
 
-    def __init__(self, city: str)-> str:
+    def __init__(self, city: str)-> None:
         self.cities = city
         self.allCities = list()
 
@@ -55,10 +55,10 @@ class Composite(ComponentInterface):
         for c in self.allCities:
             c.unify()
 
-    def append_city(self, unit: str)->str:
+    def append_city(self, unit: str)-> str:
         self.allCities.append(unit)
 
-    def remove_city(self, unit: str)->str:
+    def remove_city(self, unit: str)-> str:
         self.allCities.remove(unit)
 
 def main():
